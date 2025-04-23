@@ -1,32 +1,42 @@
-import React from 'react'
-import { useSelector, useDispatch } from "react-redux";
-import classes from "./Todo.module.css";
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import classes from './Todo.module.css';
 
-export function Todo() {
+const Todo = () => {
+  const [input, setInput] = useState('');
   const dispatch = useDispatch();
-  const counter = useSelector((state) => state.counter);
-  const show = useSelector((state) => state.showCounter);
+  const todos = useSelector((state) => state.todos);
 
-  const incrementHandker = () => {
-    dispatch({ type: "increment" });
+  const addTodoHandler = () => {
+    if (input.trim() === '') return;
+    dispatch({ type: 'ADD_TODO', text: input });
+    setInput('');
   };
-  const incrementHandker5 = (amount) => {
-    dispatch({ type: "increment5", val: amount });
+
+  const removeTodoHandler = (id) => {
+    dispatch({ type: 'REMOVE_TODO', id });
   };
-  
-  const decrementHandker = () => {
-    dispatch({ type: "decrement" });
-  };
-  
-  const toggleCounterHandler = () => {
-    dispatch({ type: "toggle" });
-  };
+
   return (
-    <div className={classes}>
-     
+    <div className={classes.container}>
+      <h2>My Todo List</h2>
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Enter a task"
+      />
+      <button onClick={addTodoHandler}>Add</button>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            {todo.text}
+            <button onClick={() => removeTodoHandler(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
-export default function Counter() {
-}
+export default Todo;

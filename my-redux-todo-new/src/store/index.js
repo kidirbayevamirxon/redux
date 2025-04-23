@@ -1,14 +1,6 @@
-import { createStore } from "redux";
+import { createStore } from 'redux';
+import todoReducer from './todoReducer';
 
-const initialState = {
-  todos: [],
-  showCompleted: true,
-};
-
-const countReducer = (state = initialState, action) => {
-  return state;
-};
-
-const store = createStore(countReducer);
+const store = createStore(todoReducer);
 
 export default store;
